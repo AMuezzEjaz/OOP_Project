@@ -9,7 +9,7 @@ using namespace std;
 
 Game *Game::MSM_Instance = 0;
 
-Game::Game() : MSM_Window(0), MSM_Renderer(0), MSM_Running(false), MSM_GameStateHandler(0), MSM_playerLives(3), MSM_scrollSpeed(0.8), MSM_LevelComplete(false), MSM_ChangingState(false)
+Game::Game() : MSM_Window(0), MSM_Renderer(0), MSM_Running(false), /*MSM_GameStateHandler(0), */ MSM_playerLives(3), MSM_scrollSpeed(0.8), MSM_LevelComplete(false), MSM_ChangingState(false)
 {
     MSM_levelFiles.push_back("assets/game_map.png");
 
@@ -67,8 +67,8 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         return false;
     }
 
-    MSM_GameStateHandler = new GameStateHandler();
-    MSM_GameStateHandler->changeState(new MainMenu()); //cwede
+    //MSM_GameStateHandler = new GameStateHandler();
+    //MSM_GameStateHandler->changeState(new MainMenu()); //cwede
 
     MSM_Running = true;
     return true;
@@ -76,20 +76,20 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 void Game::setCurrentLevel(int currentLevel)
 {
     MSM_currentLevel = currentLevel;
-    MSM_GameStateHandler->changeState(new GameOver()); //skdj
+    //MSM_GameStateHandler->changeState(new GameOver()); //skdj
     MSM_LevelComplete = false;
 }
 
 void Game::render()
 {
     SDL_RenderClear(MSM_Renderer);
-    MSM_GameStateHandler->render();
+    //MSM_GameStateHandler->render();
     SDL_RenderPresent(MSM_Renderer);
 }
 
 void Game::update()
 {
-    MSM_GameStateHandler->update();
+    //MSM_GameStateHandler->update();
 }
 
 void Game::executeEvents()
@@ -103,10 +103,10 @@ void Game::clean()
 
     InputHandler::Instance()->clean();
 
-    MSM_GameStateHandler->clean();
+    //MSM_GameStateHandler->clean();
 
-    MSM_GameStateHandler = 0;
-    delete MSM_GameStateHandler;
+    //MSM_GameStateHandler = 0;
+    //delete MSM_GameStateHandler;
 
     TextureHandler::Instance()->clearTextures(); //dwdowdn
 
