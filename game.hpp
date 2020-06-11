@@ -10,7 +10,7 @@ private:
     SDL_Window *MSM_Window;
     SDL_Renderer *MSM_Renderer;
 
-    //GameStateHandler *MSM_GameStateHandler;
+    GameStateHandler *MSM_GameStateHandler;
 
     bool MSM_Running;
 
@@ -54,7 +54,7 @@ public:
 
     SDL_Renderer *getRenderer() const { return MSM_Renderer; }
     SDL_Window *getWindow() const { return MSM_Window; }
-    //GameStateHandler *getState() { return MSM_GameStateHandler; }
+    GameStateHandler *getState() { return MSM_GameStateHandler; }
 
     void setPlayerLives(int lives) { MSM_playerLives = lives; }
     int getPlayerLives() { return MSM_playerLives; }
@@ -81,3 +81,5 @@ public:
 
     std::vector<std::string> getLevelFiles() { return MSM_levelFiles; }
 };
+
+typedef Game MSM_Game;

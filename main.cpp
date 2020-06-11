@@ -1,10 +1,12 @@
 #include "game.hpp"
+#include <windows.h>
+#include <stdint.h>
 #include <iostream>
 
 const int FPS = 60;
 const int DELAY = 1000.0f / FPS;
 
-int main()
+int main(int argc, char **argv)
 {
     AllocConsole();
     freopen("CON", "w", stdout);
@@ -22,24 +24,24 @@ int main()
 
             MSM_Game::Instance()->executeEvents();
             MSM_Game::Instance()->update();
-            MSM_Game::Instance()->reder();
+            MSM_Game::Instance()->render();
 
             frameTime = SDL_GetTicks() - frameStart;
 
             if (frameTime < DELAY)
             {
-                SDLDelay((int)(DELAY - frameTime)) :
+                SDL_Delay((int)(DELAY - frameTime));
             }
         }
     }
-}
-else
-{
-    std::cout << "Game Init Failed - " << SDL_GetError() << std::endl;
-    return -1;
-}
+    else
+    {
+        std::cout << "Game Init Failed - " << SDL_GetError() << std::endl;
+        return -1;
+    }
 
-std::cout << "Game Closing..." << std::endl;
-MSM_Game::Instance()->clean();
+    std::cout << "Game Closing..." << std::endl;
+    MSM_Game::Instance()->clean();
 
-return 0;
+    return 0;
+}
