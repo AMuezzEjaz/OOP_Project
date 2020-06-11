@@ -62,7 +62,7 @@ public:
     void setCurrentLevel(int currentLevel);
     const int getCurrentLevel() { return MSM_currentLevel; }
 
-    void setNextLeve(int nextLevel) { MSM_nextLevel = nextLevel; }
+    void setNextLevel(int nextLevel) { MSM_nextLevel = nextLevel; }
     const int getNextLevel() { return MSM_nextLevel; }
 
     void setLevelComplete(bool levelComplete) { MSM_LevelComplete = levelComplete; }
