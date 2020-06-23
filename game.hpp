@@ -7,7 +7,10 @@ class Game
 private:
     bool MSM_ChangingState;
 
+    //The window renderer
     SDL_Window *MSM_Window;
+
+    //window to be rendered to
     SDL_Renderer *MSM_Renderer;
 
     GameStateHandler *MSM_GameStateHandler;
@@ -26,7 +29,12 @@ private:
     int MSM_nextLevel;
     bool MSM_LevelComplete;
 
+    //vector string containing all level file updates
     std::vector<std::string> MSM_levelFiles;
+
+    //to handle all texture changes in game
+    int imageframe;
+    TextureHandler game_texturehandler;
 
     Game();
     ~Game();

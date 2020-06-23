@@ -12,7 +12,7 @@ Game *Game::MSM_Instance = 0;
 Game::Game() : MSM_Window(0), MSM_Renderer(0), MSM_Running(false), MSM_GameStateHandler(0), MSM_playerLives(3), MSM_scrollSpeed(0.8), MSM_LevelComplete(false), MSM_ChangingState(false)
 {
     MSM_levelFiles.push_back("assets/game_map.png");
-
+    //level indication
     MSM_currentLevel = 1;
 }
 

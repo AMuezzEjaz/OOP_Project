@@ -3,7 +3,9 @@
 #include <stdint.h>
 #include <iostream>
 
+//Prefered FPS
 const int FPS = 60;
+//Delay for User viewing
 const int DELAY = 1000.0f / FPS;
 
 int main(int argc, char **argv)
@@ -11,7 +13,7 @@ int main(int argc, char **argv)
     AllocConsole();
     freopen("CON", "w", stdout);
 
-    Unit32 frameStart, frameTime;
+    Uint32 frameStart, frameTime;
 
     std::cout << "Game Init Attempt..." << std::endl;
 
