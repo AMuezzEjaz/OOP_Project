@@ -1,83 +1,83 @@
-#ifndef __VEC2_H__
-#define __VEC2_H__
+#ifndef __vector2d_H__
+#define __vector2d_H__
 
 #include <cmath>
 
 template <class T>
-class vec2
+class vector2d
 {
 public:
     T x, y;
 
-    vec2() : x(0), y(0) {}
-    vec2(T x, T y) : x(x), y(y) {}
-    vec2(const vec2 &v) : x(v.x), y(v.y) {}
+    vector2d() : x(0), y(0) {}
+    vector2d(T x, T y) : x(x), y(y) {}
+    vector2d(const vector2d &v) : x(v.x), y(v.y) {}
 
-    vec2 &operator=(const vec2 &v)
+    vector2d &operator=(const vector2d &v)
     {
         x = v.x;
         y = v.y;
         return *this;
     }
 
-    vec2 operator+(vec2 &v)
+    vector2d operator+(vector2d &v)
     {
-        return vec2(x + v.x, y + v.y);
+        return vector2d(x + v.x, y + v.y);
     }
-    vec2 operator-(vec2 &v)
+    vector2d operator-(vector2d &v)
     {
-        return vec2(x - v.x, y - v.y);
+        return vector2d(x - v.x, y - v.y);
     }
 
-    vec2 &operator+=(vec2 &v)
+    vector2d &operator+=(vector2d &v)
     {
         x += v.x;
         y += v.y;
         return *this;
     }
-    vec2 &operator-=(vec2 &v)
+    vector2d &operator-=(vector2d &v)
     {
         x -= v.x;
         y -= v.y;
         return *this;
     }
 
-    vec2 operator+(double s)
+    vector2d operator+(double s)
     {
-        return vec2(x + s, y + s);
+        return vector2d(x + s, y + s);
     }
-    vec2 operator-(double s)
+    vector2d operator-(double s)
     {
-        return vec2(x - s, y - s);
+        return vector2d(x - s, y - s);
     }
-    vec2 operator*(double s)
+    vector2d operator*(double s)
     {
-        return vec2(x * s, y * s);
+        return vector2d(x * s, y * s);
     }
-    vec2 operator/(double s)
+    vector2d operator/(double s)
     {
-        return vec2(x / s, y / s);
+        return vector2d(x / s, y / s);
     }
 
-    vec2 &operator+=(double s)
+    vector2d &operator+=(double s)
     {
         x += s;
         y += s;
         return *this;
     }
-    vec2 &operator-=(double s)
+    vector2d &operator-=(double s)
     {
         x -= s;
         y -= s;
         return *this;
     }
-    vec2 &operator*=(double s)
+    vector2d &operator*=(double s)
     {
         x *= s;
         y *= s;
         return *this;
     }
-    vec2 &operator/=(double s)
+    vector2d &operator/=(double s)
     {
         x /= s;
         y /= s;
@@ -101,7 +101,7 @@ public:
         y = ty;
     }
 
-    vec2 &normalize()
+    vector2d &normalize()
     {
         if (length() == 0)
             return *this;
@@ -109,9 +109,9 @@ public:
         return *this;
     }
 
-    float dist(vec2 v) const
+    float dist(vector2d v) const
     {
-        vec2 d(v.x - x, v.y - y);
+        vector2d d(v.x - x, v.y - y);
         return d.length();
     }
     float length() const
@@ -125,22 +125,22 @@ public:
         y = length * sin(angle);
     }
 
-    vec2 ortho() const
+    vector2d ortho() const
     {
-        return vec2(y, -x);
+        return vector2d(y, -x);
     }
 
-    static float dot(vec2 v1, vec2 v2)
+    static float dot(vector2d v1, vector2d v2)
     {
         return v1.x * v2.x + v1.y * v2.y;
     }
-    static float cross(vec2 v1, vec2 v2)
+    static float cross(vector2d v1, vector2d v2)
     {
         return (v1.x * v2.y) - (v1.y * v2.x);
     }
 };
 
-typedef vec2<float> vec2f;
-typedef vec2<double> vec2d;
+typedef vector2d<float> vector2df;
+typedef vector2d<double> vector2dd;
 
 #endif
