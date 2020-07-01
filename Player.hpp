@@ -1,38 +1,30 @@
-#include <iostream>
-#include <vector>
-#include "GunObject.hpp"
-#include "GameObjectHandler.hpp"
+#pragma once
+#include "GameObject.hpp"
+#include "TextureHandler.hpp"
+#include "game.hpp"
 
-class Player : public GunObject
+class Player : public GameObject
 {
-public:
-    Player();
-    virtual ~Player() {}
-
-    virtual void load(); // ------> Mubeen
-
-    virtual void draw();
-    virtual void update();
-    virtual void clean();
-
-    virtual void collision();
-
 private:
-    void ressurect();
+    int hit;
+    int up;
+    int down;
+    int left;
+    int right;
 
-    void handleInput();
+    bool in_left;
+    bool in_right;
+    bool in_up;
+    bool in_down;
 
-    void handleAnimation();
-
-    int MSM_invulnerable;
-    int MSM_invulnerableTime;
-    int MSM_invulnerableCounter;
-};
-
-class PlayerCreator : public BaseCreator
-{
-    GameObject *createGameObject() const
-    {
-        return new Player();
-    }
+public:
+    Player(SDL_Renderer *renderer, const char *texturesheet, int x, int y, bool see);
+    ~Player();
+    void virtual update(Uint32);
+    int health;
+    void goup();
+    void godown();
+    void goleft();
+    void goright();
+    void reset();
 };

@@ -1,5 +1,5 @@
 #include "gameState_master.hpp"
-
+//inheriting for changing state
 class Menu_master : public GameState_master
 {
 public:

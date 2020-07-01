@@ -1,31 +1,36 @@
 #include "game.hpp"
-#include <windows.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <stdint.h>
 #include <iostream>
+#include <string>
+#include <sstream>
 
 //Prefered FPS
 const int FPS = 60;
 //Delay for User viewing
 const int DELAY = 1000.0f / FPS;
+Game *game = NULL;
 
-int main(int argc, char **argv)
+int main(int argc, char **argv[])
 {
-    AllocConsole();
-    freopen("CON", "w", stdout);
 
-    Uint32 frameStart, frameTime;
+    Uint32 frameStart;
+    int frameTime;
 
     std::cout << "Game Init Attempt..." << std::endl;
-
-    if (MSM_Game::Instance()->init("game_name", 100, 100, 640, 480, false))
+    //checking initialization of game
+    if (MSM_Game::Instance()->init("COVID 19", 100, 100, 640, 480, false))
     {
         std::cout << "Game Init Success!" << std::endl;
+
+        //while the game is working
         while (MSM_Game::Instance()->running())
         {
             frameStart = SDL_GetTicks();
 
-            MSM_Game::Instance()->executeEvents();
-            MSM_Game::Instance()->update();
+            MSM_Game::Instance()->executeEvents(); //handles events
+            MSM_Game::Instance()->update(DELAY);
             MSM_Game::Instance()->render();
 
             frameTime = SDL_GetTicks() - frameStart;

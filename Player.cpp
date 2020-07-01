@@ -1,178 +1,130 @@
 #include "Player.hpp"
-#include "game.hpp"
-#include "InputHandler.hpp"
-#include "GunHandler.hpp"
-
-using namespace std;
-
-Player::Player() : GunObject(),
-                   MSM_invulnerable(false),
-                   MSM_invulnerableTime(200),
-                   MSM_invulnerableCounter(0)
+Player::Player(SDL_Renderer *renderer, const char *texturesheet, int x, int y, bool see)
 {
+    characterTexture = TextureHandler::loadTexture(renderer, texturesheet);
+    init_xpos = x;
+    init_ypos = y;
+
+    xpos = x;
+    ypos = y;
+    name_type = "player";
+    flipit = see;
 }
 
-void Player::collision()
+void Player::update(Uint32 framerate)
 {
-    if (!MSM_invulnerable && !MSM_Game::Instance()->getLevelComplete())
+    if (right > -1 & right < 10)
     {
-        MSM_textureID = "largeexplosion";
-        MSM_currentFrame = 0;
-        MSM_numFrames = 9;
-        MSM_width = 60;
-        MSM_height = 60;
-        MSM_Dying = true;
-    }
-}
+        int temp = srcRect.x;
+        srcRect.x = 64 * int(((SDL_GetTicks() / 50) % 5));
 
-void Player::load() // ----------> Mubeen
-{
-}
-
-void Player::draw()
-{
-    gunObject::draw();
-}
-
-void Player::handleAnimation()
-{
-    if (MSM_invulnerable)
-    {
-        if (MSM_invulnerableCounter == MSM_invulnerableTime)
+        if (temp != srcRect.x)
         {
-            MSM_invulnerable = false;
-            MSM_invulnerableCounter = 0;
-            MSM_alpha = 255;
-        }
-        else
-        {
-            if (MSM_alpha == 255)
+            right++;
+            if (in_right)
             {
-                MSM_alpha = 0;
+
+                if (xpos + 18 < 800 - 100)
+                {
+                    xpos += 18;
+                    destRect.x = xpos;
+                }
             }
-            else
+            else if (in_left)
             {
-                MSM_alpha = 255;
+                if (xpos - 18 > 0)
+                {
+                    xpos -= 18;
+                    destRect.x = xpos;
+                }
             }
         }
-
-        MSM_invulnerableCounter++;
+        if (right >= 5)
+        {
+            right = -1;
+            in_right = false;
+            in_left = false;
+        }
     }
-
-    if (!MSM_Dead)
+    if (up > -1 & up < 10)
     {
-        if (MSM_velocity.getX() < 0)
+        int temp = srcRect.x;
+        srcRect.x = 64 * int(((SDL_GetTicks() / 50) % 5));
+
+        if (temp != srcRect.x)
         {
-            MSM_angle = -10.0;
+            up++;
+            if (in_up)
+            {
+                if (ypos + 18 < 800 - 100)
+                {
+                    ypos += 18;
+                    destRect.y = ypos;
+                }
+            }
+            else if (in_down)
+            {
+                if (ypos - 18 > 0)
+                {
+                    ypos -= 18;
+                    destRect.y = xpos;
+                }
+            }
         }
-        else if (MSM_velocity.getX() > 0)
+        if (up >= 5)
         {
-            MSM_angle = 10.0;
-        }
-        else
-        {
-            MSM_angle = 0.0;
+            up = -1;
+            in_up = false;
+            in_down = false;
         }
     }
 
-    MSM_currentFrame = int(((SDL_GetTicks() / (100)) % m_numFrames));
-}
-
-void Player::update()
-{
-    if (MSM_Game::Instance()->getLevelComplete())
-    {
-        if (MSM_position.getX() >= MSM_Game::Instance()->getGameWidth())
-        {
-            MSM_Game::Instance()->setCurrentLevel(MSM_Game::Instance()->getCurrentLevel() + 1);
-        }
-        else
-        {
-            MSM_velocity.setY(0);
-            MSM_velocity.setX(3);
-            GunObject::update();
-            handleAnimation();
-        }
-    }
     else
     {
-        if (!MSM_Dying)
-        {
-            MSM_velocity.setX(0);
-            MSM_velocity.setY(0);
+        srcRect.h = 64;
+        srcRect.w = 65;
+        srcRect.x = 65;
+        srcRect.y = 711;
 
-            handleInput();
-
-            GunObject::update();
-
-            handleAnimation();
-        }
-        else
-        {
-            MSM_currentFrame = int(((SDL_GetTicks() / (100)) % MSM_numFrames));
-
-            if (MSM_deathCounter == MSM_deathTime)
-            {
-                ressurect();
-            }
-            MSM_deathCounter++;
-        }
+        destRect.x = xpos;
+        destRect.y = ypos - 100;
+        destRect.w = srcRect.w * 2;
+        destRect.h = srcRect.h * 2;
     }
 }
 
-void Player::ressurect()
+void Player::goleft()
 {
-    MSM_Game::Instance()->setPlayerLives(MSM_Game::Instance()->getPlayerLives() - 1);
-
-    MSM_position.setX(10);
-    MSM_position.setY(200);
-    MSM_Dying = false;
-
-    MSM_textureID = "player";
-
-    MSM_currentFrame = 0;
-    MSM_numFrames = 5;
-    MSM_width = 101;
-    MSM_height = 46;
-
-    MSM_deathCounter = 0;
-    MSM_invulnerable = true;
+    Flip = SDL_FLIP_HORIZONTAL;
+    right = 0;
+    flipit = true;
+    in_left = true;
 }
 
-void Player::clean()
+void Player::goright()
 {
-    GunObject::clean();
-}
 
-void Player::handleInput()
-{
-    if (!MSM_Dead)
+    //flipped = false;
+    flipit = false;
+    if (Flip == SDL_FLIP_HORIZONTAL)
     {
-        if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP))
-        {
-        }
-        else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN))
-        {
-        }
-
-        if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT))
-        {
-        }
-        else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT))
-        {
-        }
-        if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_SPACE))
-        {
-            if (MSM_GunCounter == MSM_GunFiringSpeed)
-            {
-                MSM_GunCounter = 0;
-            }
-
-            MSM_GunCounter++;
-        }
-        else
-        {
-            MSM_GunCounter = MSM_GunFiringSpeed;
-        }
+        Flip = SDL_FLIP_NONE;
     }
+    right = 0;
+    in_right = true;
+}
+
+void Player::reset()
+{
+    xpos = init_xpos;
+    ypos = init_ypos;
+    right = -1;
+    left = -1;
+    down = -1;
+    up = -1;
+    hit = -1;
+    in_up = false;
+    in_down = false;
+    in_left = false;
+    in_right = false;
 }
